@@ -25,5 +25,5 @@ type V4ClusterListItem struct {
 	Owner string `json:"owner,omitempty"`
 
 	// The semantic version number of this cluster
-	Release string `json:"release,omitempty"`
+	ReleaseVersion string `json:"release_version,omitempty"`
 }
