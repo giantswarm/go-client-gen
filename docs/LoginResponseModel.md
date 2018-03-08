@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Data** | [**LoginResponseModelData**](LoginResponseModel_data.md) |  | [optional] [default to null]
+**Data** | [***LoginResponseModelData**](LoginResponseModel_data.md) |  | [default to null]
 **StatusCode** | **int32** |  | [default to null]
 **StatusText** | **string** |  | [default to null]
 
