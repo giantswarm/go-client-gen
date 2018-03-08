@@ -10,7 +10,7 @@
 package gsclientgen
 
 type LoginResponseModel struct {
-	Data LoginResponseModelData `json:"data,omitempty"`
+	Data *LoginResponseModelData `json:"data"`
 
 	StatusCode int32 `json:"status_code"`
 

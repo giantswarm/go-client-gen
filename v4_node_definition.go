@@ -10,15 +10,15 @@
 package gsclientgen
 
 type V4NodeDefinition struct {
-	Memory V4NodeDefinitionMemory `json:"memory,omitempty"`
+	Memory *V4NodeDefinitionMemory `json:"memory,omitempty"`
 
-	Storage V4NodeDefinitionStorage `json:"storage,omitempty"`
+	Storage *V4NodeDefinitionStorage `json:"storage,omitempty"`
 
-	Cpu V4NodeDefinitionCpu `json:"cpu,omitempty"`
+	Cpu *V4NodeDefinitionCpu `json:"cpu,omitempty"`
 
-	Labels interface{} `json:"labels,omitempty"`
+	Labels *interface{} `json:"labels,omitempty"`
 
-	Aws V4NodeDefinitionAws `json:"aws,omitempty"`
+	Aws *V4NodeDefinitionAws `json:"aws,omitempty"`
 
-	Azure V4NodeDefinitionAzure `json:"azure,omitempty"`
+	Azure *V4NodeDefinitionAzure `json:"azure,omitempty"`
 }

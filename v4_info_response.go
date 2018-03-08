@@ -10,7 +10,7 @@
 package gsclientgen
 
 type V4InfoResponse struct {
-	General V4InfoResponseGeneral `json:"general,omitempty"`
+	General *V4InfoResponseGeneral `json:"general,omitempty"`
 
-	Workers V4InfoResponseWorkers `json:"workers,omitempty"`
+	Workers *V4InfoResponseWorkers `json:"workers,omitempty"`
 }

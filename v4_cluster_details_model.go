@@ -26,5 +26,5 @@ type V4ClusterDetailsModel struct {
 
 	Workers []V4NodeDefinitionResponse `json:"workers,omitempty"`
 
-	Kvm V4ClusterDetailsModelKvm `json:"kvm,omitempty"`
+	Kvm *V4ClusterDetailsModelKvm `json:"kvm,omitempty"`
 }
