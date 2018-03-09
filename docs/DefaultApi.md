@@ -50,7 +50,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -171,7 +171,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -210,7 +210,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -249,7 +249,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -288,7 +288,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -325,7 +325,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -364,7 +364,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -405,7 +405,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -446,7 +446,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -483,7 +483,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
