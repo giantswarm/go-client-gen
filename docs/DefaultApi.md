@@ -19,22 +19,30 @@ Method | HTTP request | Description
 
 
 # **AddCluster**
-> V4GenericResponse AddCluster($authorization, $body, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> V4GenericResponse AddCluster(ctx, authorization, body, optional)
 Create cluster
 
 This operation is used to create a new Kubernetes cluster for an organization. The desired configuration can be specified using the __cluster definition format__ (see [external documentation](https://github.com/giantswarm/api-spec/blob/ master/details/CLUSTER_DEFINITION.md) for details). The cluster definition format allows to set a number of optional configuration details, like memory size and number of CPU cores. However, one attribute is __mandatory__ upon creation: The `owner` attribute must carry the name of the organization the cluster will belong to. Note that the acting user must be a member of that organization in order to create a cluster. It is *recommended* to also specify the `name` attribute to give the cluster a friendly name, like e. g. \"Development Cluster\". Additional definition attributes can be used. Where attributes are ommitted, default configuration values will be applied. For example, if no `kubernetes_version` is specified, the latest version tested and provided by Giant Swarm is used. The `workers` attribute, if present, must contain an array of node definition objects. The number of objects given determines the number of workers created. For example, requesting three worker nodes with default configuration can be achieved by submitting an array of three empty objects: ```\"workers\": [{}, {}, {}]```
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+  **body** | [**V4AddClusterRequest**](V4AddClusterRequest.md)| New cluster definition | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
  **body** | [**V4AddClusterRequest**](V4AddClusterRequest.md)| New cluster definition | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -42,7 +50,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -52,21 +60,30 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **AddKeyPair**
-> V4AddKeyPairResponse AddKeyPair($authorization, $clusterId, $body, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> V4AddKeyPairResponse AddKeyPair(ctx, authorization, clusterId, body, optional)
 Add key-pair for cluster
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+  **clusterId** | **string**| ID of the cluster to create the key-pair for | 
+  **body** | [**V4AddKeyPairBody**](V4AddKeyPairBody.md)| Description and expiry time for the new key-pair | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
  **clusterId** | **string**| ID of the cluster to create the key-pair for | 
  **body** | [**V4AddKeyPairBody**](V4AddKeyPairBody.md)| Description and expiry time for the new key-pair | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -74,7 +91,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -84,22 +101,30 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeleteCluster**
-> V4GenericResponse DeleteCluster($authorization, $clusterId, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> V4GenericResponse DeleteCluster(ctx, authorization, clusterId, optional)
 Delete cluster
 
 This operation allows to delete a cluster.  __Caution:__ Deleting a cluster causes the termination of all workloads running on the cluster. Data stored on the worker nodes will be lost. There is no way to undo this operation.  The response is sent as soon as the request is validated. At that point, workloads might still be running on the cluster and may be accessible for a little wile, until the cluster is actually deleted. 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+  **clusterId** | **string**| Cluster ID | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
  **clusterId** | **string**| Cluster ID | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -107,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -117,20 +142,28 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetCluster**
-> V4ClusterDetailsModel GetCluster($authorization, $clusterId, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> V4ClusterDetailsModel GetCluster(ctx, authorization, clusterId, optional)
 Get cluster details
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+  **clusterId** | **string**| Cluster ID | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
  **clusterId** | **string**| Cluster ID | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -138,7 +171,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -148,21 +181,28 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetClusters**
-> []V4ClusterListItem GetClusters($authorization, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> []V4ClusterListItem GetClusters(ctx, authorization, optional)
 Get clusters
 
 This operation fetches a list of clusters. The result depends on the permissions of the user. A normal user will get all the clusters the user has access to, via organization membership.  A user with admin permission will receive a list of all existing clusters.  The result array items are sparse representations of the cluster objects. 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -170,7 +210,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -180,21 +220,28 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetInfo**
-> V4InfoResponse GetInfo($authorization, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> V4InfoResponse GetInfo(ctx, authorization, optional)
 Get information on the installation
 
 See https://docs.giantswarm.io/api/#operation/getInfo
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -202,7 +249,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -212,20 +259,28 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetKeyPairs**
-> []KeyPairModel GetKeyPairs($authorization, $clusterId, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> []KeyPairModel GetKeyPairs(ctx, authorization, clusterId, optional)
 Get key-pairs for cluster
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+  **clusterId** | **string**|  | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
  **clusterId** | **string**|  | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -233,7 +288,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -243,19 +298,26 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetReleases**
-> []V4ReleaseListItem GetReleases($authorization, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> []V4ReleaseListItem GetReleases(ctx, authorization, optional)
 Get releases
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -263,7 +325,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -273,21 +335,28 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetUserOrganizations**
-> []V4OrganizationListItem GetUserOrganizations($authorization, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> []V4OrganizationListItem GetUserOrganizations(ctx, authorization, optional)
 Get organizations for user
 
 This operation allows to fetch a list of organizations the user is a member of. In the case of an admin user, the result includes all existing organizations. 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -295,7 +364,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -305,21 +374,30 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ModifyCluster**
-> V4ClusterDetailsModel ModifyCluster($authorization, $clusterId, $body, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> V4ClusterDetailsModel ModifyCluster(ctx, authorization, clusterId, body, optional)
 Modify cluster
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+  **clusterId** | **string**| Cluster ID | 
+  **body** | [**V4ModifyClusterRequest**](V4ModifyClusterRequest.md)| Modified cluster definition (JSON merge-patch) | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
  **clusterId** | **string**| Cluster ID | 
  **body** | [**V4ModifyClusterRequest**](V4ModifyClusterRequest.md)| Modified cluster definition (JSON merge-patch) | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -327,7 +405,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -337,22 +415,30 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UserLogin**
-> LoginResponseModel UserLogin($email, $payload, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> LoginResponseModel UserLogin(ctx, email, payload, optional)
 Log in as a user
 
 This method takes email and password of a user and returns a new session token. The token can be found in the `data.Id` field of the response object. 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **email** | **string**| User email address | 
+  **payload** | [**LoginBodyModel**](LoginBodyModel.md)| base64 encoded password | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **email** | **string**| User email address | 
  **payload** | [**LoginBodyModel**](LoginBodyModel.md)| base64 encoded password | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -360,7 +446,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 
@@ -370,19 +456,26 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UserLogout**
-> GenericResponseModel UserLogout($authorization, $xRequestID, $xGiantSwarmActivity, $xGiantSwarmCmdLine)
-
+> GenericResponseModel UserLogout(ctx, authorization, optional)
 Expire the currently used auth token
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **string**| Header to pass an authorization token. The value has to be in the form &#x60;giantswarm &lt;token&gt;&#x60;.  | 
- **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | [optional] 
- **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | [optional] 
- **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | [optional] 
+ **xRequestID** | **string**| A randomly generated key that can be used to track a request throughout services of Giant Swarm  | 
+ **xGiantSwarmActivity** | **string**| Name of an activity to track, like \&quot;list-clusters\&quot; | 
+ **xGiantSwarmCmdLine** | **string**| If activity has been issued by a CLI, this header can contain the command line  | 
 
 ### Return type
 
@@ -390,7 +483,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[AuthorizationHeaderToken](../README.md#AuthorizationHeaderToken)
 
 ### HTTP request headers
 

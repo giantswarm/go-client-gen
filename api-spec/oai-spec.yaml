@@ -12,6 +12,16 @@ consumes:
   - application/json
 produces:
   - application/json
+securityDefinitions:
+  AuthorizationHeaderToken:
+    description: |
+      `Authorization` header with a value of the format `giantswarm <token>`
+    type: apiKey
+    name: Authorization
+    in: header
+
+security:
+  - AuthorizationHeaderToken: []
 
 paths:
   /v1/user/{email}/login:
