@@ -752,10 +752,14 @@ definitions:
             description: Unique name of the installation
             type: string
           provider:
-            description: The technical provider used in this installation. Either "kvm", "aws", or "azure".
+            description: |
+              The technical provider used in this installation. Either "kvm",
+              "aws", or "azure".
             type: string
           datacenter:
-            description: Identifier of the datacenter or cloud provider region, e. g. "eu-west-1"
+            description: |
+              Identifier of the datacenter or cloud provider region,
+              e. g. "eu-west-1"
             type: string
       workers:
         description: Information related to worker nodes
@@ -769,10 +773,14 @@ definitions:
                 description: Maximum number of worker a cluster can have
                 type: number
               default:
-                description: Default number of workers in a new cluster will have, if not specifiec otherwise
+                description: |
+                  Default number of workers in a new cluster will have, if not
+                  specifiec otherwise
                 type: number
           instance_type:
-            description: Instance types to be used for worker nodes. Only available for AWS clusters.
+            description: |
+              Instance types to be used for worker nodes. Only available for
+              AWS clusters.
             type: object
             properties:
               options:
@@ -781,10 +789,13 @@ definitions:
                 items:
                   type: string
               default:
-                description: The instance type used in new cluster, if not specified
+                description: |
+                  The instance type used in new cluster, if not specified
                 type: string
           vm_size:
-            description: Azure Virtual Machine size to be used for worker nodes. Only available for Azure clusters.
+            description: |
+              Azure Virtual Machine size to be used for worker nodes. Only
+              available for Azure clusters.
             type: object
             properties:
               options:
@@ -793,7 +804,8 @@ definitions:
                 items:
                   type: string
               default:
-                description: The instance type used in new cluster, if not specified
+                description: |
+                  The instance type used in new cluster, if not specified
                 type: string
 
 parameters:
