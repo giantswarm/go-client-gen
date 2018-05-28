@@ -14,73 +14,51 @@ produces:
   - application/json
 
 paths:
-  /v1/user/{email}/login:
+  /v4/auth-tokens/:
     post:
-      operationId: userLogin
-      summary: Log in as a user
+      operationId: createAuthToken
+      summary: Create Auth Token (Login)
       description: |
-        This method takes email and password of a user and returns a new session
-        token. The token can be found in the `data.Id` field of the response
-        object.
-      externalDocs:
-        description: More information
-        url: "http://firstgen-docs.giantswarm.io/reference/api/v1\
-          /#password-authentication"
+        Creates a Auth Token for a given user. Must authenticate with email and
+        password.
       parameters:
-        - $ref: '#/parameters/XRequestIDHeader'
-        - $ref: '#/parameters/XGiantSwarmActivityHeader'
-        - $ref: '#/parameters/XGiantSwarmCmdLineHeader'
-        - name: email
-          in: path
-          type: string
-          required: true
-          description: User email address
-        - name: payload
+        - name: body
           in: body
           required: true
-          description: base64 encoded password
+          description: Create Auth Token Request
           schema:
-            $ref: '#/definitions/LoginBodyModel'
+            $ref: 'definitions.yaml#/definitions/V4CreateAuthTokenRequest'
       responses:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/LoginResponseModel'
-        "400":
-          description: Invalid credentials
+            $ref: "definitions.yaml#/definitions/V4CreateAuthTokenResponse"
+          examples:
+            application/json:
+              {
+                "auth_token": "e5239484-2299-41df-b901-d0568db7e3f9"
+              }
+        "401":
+          description: Permission denied
           schema:
-            $ref: '#/definitions/GenericResponseModel'
-        default:
-          description: Unknown error
-          schema:
-            $ref: '#/definitions/GenericResponseModel'
-  /v1/token/logout:
-    post:
-      operationId: userLogout
-      summary: Expire the currently used auth token
+            $ref: "definitions.yaml#/definitions/V4GenericResponse"
+    delete:
+      operationId: deleteAuthToken
+      summary: Delete Auth Token (Logout)
+      description: |
+        Deletes the authentication token provided in the Authorization header.
+        This effectively logs you out.
       parameters:
-        - $ref: '#/parameters/RequiredAuthorizationHeader'
-        - $ref: '#/parameters/XRequestIDHeader'
-        - $ref: '#/parameters/XGiantSwarmActivityHeader'
-        - $ref: '#/parameters/XGiantSwarmCmdLineHeader'
-      produces:
-        - application/json
-        - text/plain
+        - name: Authorization
+          type: string
+          in: header
+          required: true
+          description: giantswarm AUTH_TOKEN_HERE
       responses:
         "200":
-          description: |
-            Success. A `response_code=10007` indicates that the token has been
-            deleted.
+          description: Success
           schema:
-            $ref: '#/definitions/GenericResponseModel'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/EmptyObjectModel'
-        default:
-          description: Unknown error
-          schema:
-            $ref: '#/definitions/GenericResponseModel'
+            $ref: "definitions.yaml#/definitions/V4GenericResponse"
 
   /v4/organizations/:
     get:
@@ -807,6 +785,25 @@ definitions:
                 description: |
                   The instance type used in new cluster, if not specified
                 type: string
+
+  # A request for an auth token
+  V4CreateAuthTokenRequest:
+    type: object
+    properties:
+      email:
+        type: string
+        description: Your email address
+      password_base64:
+        type: string
+        description: Your password as a base64 encoded string
+
+  # A response to a successful auth token request
+  V4CreateAuthTokenResponse:
+    type: object
+    properties:
+      auth-token:
+        type: string
+        description: The newly created API token
 
 parameters:
   RequiredAuthorizationHeader:
