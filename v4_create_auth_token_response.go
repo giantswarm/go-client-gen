@@ -13,5 +13,5 @@ package gsclientgen
 type V4CreateAuthTokenResponse struct {
 
 	// The newly created API token
-	AuthToken string `json:"auth-token,omitempty"`
+	AuthToken string `json:"auth_token,omitempty"`
 }
