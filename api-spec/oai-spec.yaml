@@ -27,12 +27,12 @@ paths:
           required: true
           description: Create Auth Token Request
           schema:
-            $ref: 'definitions.yaml#/definitions/V4CreateAuthTokenRequest'
+            $ref: '#/definitions/V4CreateAuthTokenRequest'
       responses:
         "200":
           description: Success
           schema:
-            $ref: "definitions.yaml#/definitions/V4CreateAuthTokenResponse"
+            $ref: "#/definitions/V4CreateAuthTokenResponse"
           examples:
             application/json:
               {
@@ -41,7 +41,7 @@ paths:
         "401":
           description: Permission denied
           schema:
-            $ref: "definitions.yaml#/definitions/V4GenericResponse"
+            $ref: "#/definitions/V4GenericResponse"
     delete:
       operationId: deleteAuthToken
       summary: Delete Auth Token (Logout)
@@ -58,7 +58,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "definitions.yaml#/definitions/V4GenericResponse"
+            $ref: "#/definitions/V4GenericResponse"
 
   /v4/organizations/:
     get:

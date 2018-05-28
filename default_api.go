@@ -191,9 +191,9 @@ func (a DefaultApi) AddKeyPair(authorization string, clusterId string, body V4Ad
  * Creates a Auth Token for a given user. Must authenticate with email and password.
  *
  * @param body Create Auth Token Request
- * @return *DefinitionsYamldefinitionsV4CreateAuthTokenResponse
+ * @return *V4CreateAuthTokenResponse
  */
-func (a DefaultApi) CreateAuthToken(body V4CreateAuthTokenRequest) (*DefinitionsYamldefinitionsV4CreateAuthTokenResponse, *APIResponse, error) {
+func (a DefaultApi) CreateAuthToken(body V4CreateAuthTokenRequest) (*V4CreateAuthTokenResponse, *APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
@@ -230,7 +230,7 @@ func (a DefaultApi) CreateAuthToken(body V4CreateAuthTokenRequest) (*Definitions
 	}
 	// body params
 	localVarPostBody = &body
-	var successPayload = new(DefinitionsYamldefinitionsV4CreateAuthTokenResponse)
+	var successPayload = new(V4CreateAuthTokenResponse)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 
 	var localVarURL, _ = url.Parse(localVarPath)
@@ -253,9 +253,9 @@ func (a DefaultApi) CreateAuthToken(body V4CreateAuthTokenRequest) (*Definitions
  * Deletes the authentication token provided in the Authorization header. This effectively logs you out.
  *
  * @param authorization giantswarm AUTH_TOKEN_HERE
- * @return *DefinitionsYamldefinitionsV4GenericResponse
+ * @return *V4GenericResponse
  */
-func (a DefaultApi) DeleteAuthToken(authorization string) (*DefinitionsYamldefinitionsV4GenericResponse, *APIResponse, error) {
+func (a DefaultApi) DeleteAuthToken(authorization string) (*V4GenericResponse, *APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Delete")
 	// create path and map variables
@@ -292,7 +292,7 @@ func (a DefaultApi) DeleteAuthToken(authorization string) (*DefinitionsYamldefin
 	}
 	// header params "Authorization"
 	localVarHeaderParams["Authorization"] = a.Configuration.APIClient.ParameterToString(authorization, "")
-	var successPayload = new(DefinitionsYamldefinitionsV4GenericResponse)
+	var successPayload = new(V4GenericResponse)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 
 	var localVarURL, _ = url.Parse(localVarPath)

@@ -84,7 +84,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateAuthToken**
-> DefinitionsYamldefinitionsV4CreateAuthTokenResponse CreateAuthToken($body)
+> V4CreateAuthTokenResponse CreateAuthToken($body)
 
 Create Auth Token (Login)
 
@@ -99,7 +99,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DefinitionsYamldefinitionsV4CreateAuthTokenResponse**](definitions.yaml#/definitions/V4CreateAuthTokenResponse.md)
+[**V4CreateAuthTokenResponse**](V4CreateAuthTokenResponse.md)
 
 ### Authorization
 
@@ -113,7 +113,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeleteAuthToken**
-> DefinitionsYamldefinitionsV4GenericResponse DeleteAuthToken($authorization)
+> V4GenericResponse DeleteAuthToken($authorization)
 
 Delete Auth Token (Logout)
 
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DefinitionsYamldefinitionsV4GenericResponse**](definitions.yaml#/definitions/V4GenericResponse.md)
+[**V4GenericResponse**](V4GenericResponse.md)
 
 ### Authorization
 
