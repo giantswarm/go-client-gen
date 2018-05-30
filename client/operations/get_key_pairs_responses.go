@@ -85,7 +85,7 @@ Unknown error
 type GetKeyPairsDefault struct {
 	_statusCode int
 
-	Payload *models.GenericResponseModel
+	Payload *models.V4GenericResponse
 }
 
 // Code gets the status code for the get key pairs default response
@@ -99,7 +99,7 @@ func (o *GetKeyPairsDefault) Error() string {
 
 func (o *GetKeyPairsDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.GenericResponseModel)
+	o.Payload = new(models.V4GenericResponse)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

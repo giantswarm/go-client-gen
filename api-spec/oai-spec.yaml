@@ -112,7 +112,7 @@ paths:
         default:
           description: Unknown error
           schema:
-            $ref: '#/definitions/GenericResponseModel'
+            $ref: '#/definitions/V4GenericResponse'
 
   /v4/clusters/{cluster_id}/key-pairs/:
     get:
@@ -137,7 +137,7 @@ paths:
         default:
           description: Unknown error
           schema:
-            $ref: '#/definitions/GenericResponseModel'
+            $ref: '#/definitions/V4GenericResponse'
     post:
       operationId: addKeyPair
       summary: Add key-pair for cluster
@@ -165,7 +165,7 @@ paths:
         default:
           description: Unknown error
           schema:
-            $ref: '#/definitions/GenericResponseModel'
+            $ref: '#/definitions/V4GenericResponse'
 
   /v4/clusters/:
     get:
@@ -215,7 +215,7 @@ paths:
         default:
           description: Error
           schema:
-            $ref: '#/definitions/GenericResponseModel'
+            $ref: '#/definitions/V4GenericResponse'
     post:
       operationId: addCluster
       summary: Create cluster
