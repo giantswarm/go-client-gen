@@ -1,8 +1,8 @@
 language: go
 
 install:
-  - go get -d -v .
+  - go get -u github.com/golang/dep/cmd/dep
 
 script:
-  - go build -v ./
+  - make build
 
