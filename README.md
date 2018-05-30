@@ -16,49 +16,10 @@ Documentation can be found in the sub folder `docs`.
 In your Go package, import like this:
 
 ```go
-import "github.com/giantswarm/gsclientgen"
+import "github.com/giantswarm/TODO"
 ```
 
-Some usage examples:
-
-```go
-client := gsclientgen.NewDefaultApi()
-myToken := ""
-
-// get an auth token (aka "Login")
-requestBody := gsclientgen.LoginBody{Password: base64EncodedPass}
-loginResponse, _, err := client.UserLoginModel("email@example.com", requestBody)
-if err != nil {
-	log.Fatal(err)
-}
-if loginResponse.StatusCode == 10000 {
-	myToken = loginResponse.Data.Id
-	fmt.Printf("Successfully logged in. Token is %s.\n", loginResponse.Data.Id)
-}
-
-// list organizations the user is member of
-authHeader := "giantswarm " + myToken
-orgsResponse, _, err := client.GetUserOrganizations(authHeader)
-if err != nil {
-	log.Fatal(err)
-}
-if orgsResponse.StatusCode == 10000 {
-	var organizations = orgsResponse.Data
-	for _, orgName := orgsResponse.Data {
-		fmt.Println(orgName)
-	}
-}
-
-// log out
-logoutResponse, _, err := client.UserLogout(authHeader)
-if err != nil {
-	log.Fatal(err)
-}
-if logoutResponse.StatusCode == 10007 {
-	myToken = ""
-	fmt.Println("Successfully logged out")
-}
-```
+TODO
 
 ## Development
 

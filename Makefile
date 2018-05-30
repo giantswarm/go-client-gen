@@ -1,24 +1,24 @@
 PWD := $(shell pwd)
 
-get-deps:
-	go get github.com/go-resty/resty
-
 generate: clean
 	docker run --rm -it \
-		-v ${PWD}:/swagger-api/out \
-		-v ${PWD}/api-spec:/swagger-api/yaml \
-		jimschubert/swagger-codegen-cli:2.2.3 generate \
-		--input-spec /swagger-api/yaml/oai-spec.yaml \
-		--lang go \
-		--config /swagger-api/out/swagger-codegen-conf.json \
-		--output /swagger-api/out
-	gofmt -s -l -w .
+	  -e GOPATH=${HOME}/go:/go \
+		-v ${HOME}:${HOME} \
+		-w ${PWD} \
+		quay.io/goswagger/swagger:0.14.0 \
+			generate client \
+			--spec api-spec/oai-spec.yaml \
+			--name gsclientgen \
+			--default-scheme https
+	gofmt -s -l -w client
+	gofmt -s -l -w models
 
 # removal of all generated files
 clean:
-	rm -f *.go
-	rm -f docs/*.md
+	rm -rf client
+	rm -rf models
 
+# validate the spec
 validate:
 	docker run --rm -it \
 	    -v ${PWD}/api-spec:/workdir \
@@ -30,5 +30,8 @@ validate:
 		--lang swagger \
 		--output /tmp/
 
+# validate the code through building
 build:
-	go build ./...
+	dep ensure
+	go build github.com/giantswarm/gsclientgen/models
+	go build github.com/giantswarm/gsclientgen/client
