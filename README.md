@@ -16,10 +16,35 @@ Documentation can be found in the sub folder `docs`.
 In your Go package, import like this:
 
 ```go
-import "github.com/giantswarm/TODO"
+import (
+  "github.com/giantswarm/gsclientgen/client"
+  "github.com/giantswarm/gsclientgen/client/operations"
+
+  "github.com/go-openapi/strfmt"
+)
 ```
 
-TODO
+Here is a simplistic way to use the client
+
+```go
+// transport is a http.Transport set up with the right endpoint, scheme,
+// TLS config, proxy settings, timeouts etc.
+
+c, err := client.New(transport, strfmt.Default)
+if err != nil {
+  fmt.Println(err)
+}
+
+params := operations.NewGetClustersParams()
+params.Authorization = "giantswarm " + token
+
+clustersResponse, err := apiClient.Operations.GetClusters(params)
+if err != nil {
+  fmt.Println(err)
+}
+
+fmt.Printf("First cluster ID is '%s'\n", clustersResponse.Payload[0].ID)
+```
 
 ## Development
 
