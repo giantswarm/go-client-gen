@@ -25,3 +25,7 @@ _testmain.go
 
 vendor/
 Gopkg.lock
+api-spec/definitions.yaml
+api-spec/parameters.yaml
+api-spec/responses.yaml
+api-spec/spec.yaml

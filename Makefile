@@ -1,15 +1,21 @@
 PWD := $(shell pwd)
 
 generate: clean
+	# pull spec
+	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/master/spec.yaml > api-spec/spec.yaml
+	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/master/responses.yaml > api-spec/responses.yaml
+	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/master/parameters.yaml > api-spec/parameters.yaml
+	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/master/definitions.yaml > api-spec/definitions.yaml
 	docker run --rm -it \
 	  -e GOPATH=${HOME}/go:/go \
 		-v ${HOME}:${HOME} \
-		-w ${PWD} \
+		-w ${PWD}/api-spec \
 		quay.io/goswagger/swagger:0.14.0 \
 			generate client \
-			--spec api-spec/oai-spec.yaml \
+			--spec spec.yaml \
 			--name gsclientgen \
-			--default-scheme https
+			--default-scheme https \
+			--target ..
 	gofmt -s -l -w client
 	gofmt -s -l -w models
 
@@ -17,6 +23,7 @@ generate: clean
 clean:
 	rm -rf client
 	rm -rf models
+	rm -rf api-spec/*
 
 # validate the spec
 validate:
