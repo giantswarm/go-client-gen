@@ -1,11 +1,15 @@
 PWD := $(shell pwd)
 
+# API Spec branch name
+# TODO: revert this to master
+BRANCH := add-optional-request-headers
+
 generate: clean
 	# pull spec
-	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/master/spec.yaml > api-spec/spec.yaml
-	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/master/responses.yaml > api-spec/responses.yaml
-	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/master/parameters.yaml > api-spec/parameters.yaml
-	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/master/definitions.yaml > api-spec/definitions.yaml
+	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/$(BRANCH)/spec.yaml > api-spec/spec.yaml
+	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/$(BRANCH)/responses.yaml > api-spec/responses.yaml
+	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/$(BRANCH)/parameters.yaml > api-spec/parameters.yaml
+	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/$(BRANCH)/definitions.yaml > api-spec/definitions.yaml
 	docker run --rm -it \
 	  -e GOPATH=${HOME}/go:/go \
 		-v ${HOME}:${HOME} \
