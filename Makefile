@@ -2,7 +2,7 @@ PWD := $(shell pwd)
 
 # API Spec branch name
 # TODO: revert this to master
-BRANCH := add-optional-request-headers
+BRANCH := add-401-responses
 
 generate: clean
 	# pull spec
