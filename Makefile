@@ -1,8 +1,7 @@
 PWD := $(shell pwd)
 
 # API Spec branch name
-# TODO: revert this to master
-BRANCH := add-401-responses
+BRANCH := master
 
 generate: clean
 	# pull spec
