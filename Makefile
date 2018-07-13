@@ -1,8 +1,7 @@
 PWD := $(shell pwd)
 
 # API Spec branch name
-# TODO: revert to master
-BRANCH := fix-auth-header
+BRANCH := master
 
 generate: clean
 	# pull spec
