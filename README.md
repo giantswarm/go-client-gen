@@ -13,37 +13,38 @@ Documentation can be found in the sub folder `docs`.
 
 ## Usage
 
-In your Go package, import like this:
+Here is a simplistic example of how to use the client for listing clusters:
 
 ```go
+package main
+
 import (
-  "github.com/giantswarm/gsclientgen/client"
-  "github.com/giantswarm/gsclientgen/client/operations"
+	"fmt"
 
-  "github.com/go-openapi/strfmt"
+	"github.com/giantswarm/gsclientgen/client"
+	"github.com/giantswarm/gsclientgen/client/clusters"
+
+	httptransport "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 )
-```
 
-Here is a simplistic way to use the client
+func main() {
+	// You'll need the correct host name and probably "https" instead of "http"
+	tp := httptransport.New("localhost:8000", "", []string{"http"})
 
-```go
-// transport is a http.Transport set up with the right endpoint, scheme,
-// TLS config, proxy settings, timeouts etc.
+	// You'll need a proper token
+	token := "some-example-token"
 
-c, err := client.New(transport, strfmt.Default)
-if err != nil {
-  fmt.Println(err)
+	params := clusters.NewGetClustersParams().WithAuthorization("giantswarm " + token)
+	c := client.New(tp, strfmt.Default)
+
+	response, err := c.Clusters.GetClusters(params, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Printf("First cluster ID is '%s'\n", response.Payload[0].ID)
 }
-
-params := operations.NewGetClustersParams()
-params.Authorization = "giantswarm " + token
-
-clustersResponse, err := apiClient.Operations.GetClusters(params)
-if err != nil {
-  fmt.Println(err)
-}
-
-fmt.Printf("First cluster ID is '%s'\n", clustersResponse.Payload[0].ID)
 ```
 
 ## Development
