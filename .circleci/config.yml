@@ -10,15 +10,6 @@ jobs:
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - v1-pkg-cache
-
       - run: go get -u github.com/golang/dep/cmd/dep
 
       - run: make build
-
-      - save_cache:
-          key: v1-pkg-cache
-          paths:
-            - "/go/pkg"
