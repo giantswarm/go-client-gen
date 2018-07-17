@@ -5,14 +5,14 @@ BRANCH := master
 
 generate: clean
 	# pull spec
+	mkdir -p ./api-spec
 	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/$(BRANCH)/spec.yaml > api-spec/spec.yaml
 	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/$(BRANCH)/responses.yaml > api-spec/responses.yaml
 	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/$(BRANCH)/parameters.yaml > api-spec/parameters.yaml
 	curl -s https://raw.githubusercontent.com/giantswarm/api-spec/$(BRANCH)/definitions.yaml > api-spec/definitions.yaml
 	docker run --rm -it \
-	  -e GOPATH=${HOME}/go:/go \
-		-v ${HOME}:${HOME} \
-		-w ${PWD}/api-spec \
+	  -v ${PWD}:/go/src/github.com/giantswarm/gsclientgen \
+		-w /go/src/github.com/giantswarm/gsclientgen/api-spec \
 		quay.io/goswagger/swagger:0.14.0 \
 			generate client \
 			--spec spec.yaml \
