@@ -33,11 +33,11 @@ clean:
 validate:
 	docker run --rm -it \
 	    -v ${PWD}/api-spec:/workdir \
-	    boiyaa/yamllint:1.8.1 ./oai-spec.yaml
+	    boiyaa/yamllint:1.8.1 ./spec.yaml
 	docker run --rm -it \
 		-v ${PWD}/api-spec:/swagger-api/yaml \
 		jimschubert/swagger-codegen-cli:2.2.3 generate \
-		--input-spec /swagger-api/yaml/oai-spec.yaml \
+		--input-spec /swagger-api/yaml/spec.yaml \
 		--lang swagger \
 		--output /tmp/
 
