@@ -3,7 +3,7 @@ USERID=$(shell id -u)
 GROUPID=$(shell id -g)
 
 # API Spec branch name
-BRANCH := teemow-multi-az
+BRANCH := master
 
 generate: clean
 	# pull spec
