@@ -3,7 +3,7 @@ USERID=$(shell id -u)
 GROUPID=$(shell id -g)
 
 # API Spec branch name
-BRANCH := spec-auto-scaling
+BRANCH := master
 
 generate: clean
 	# pull spec
