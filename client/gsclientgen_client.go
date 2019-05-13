@@ -6,6 +6,11 @@ package client
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"github.com/go-openapi/runtime"
+	httptransport "github.com/go-openapi/runtime/client"
+
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/giantswarm/gsclientgen/client/apps"
 	"github.com/giantswarm/gsclientgen/client/auth_tokens"
 	"github.com/giantswarm/gsclientgen/client/clusters"
@@ -14,23 +19,6 @@ import (
 	"github.com/giantswarm/gsclientgen/client/organizations"
 	"github.com/giantswarm/gsclientgen/client/releases"
 	"github.com/giantswarm/gsclientgen/client/users"
-	"github.com/go-openapi/runtime"
-	httptransport "github.com/go-openapi/runtime/client"
-	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/giantswarm/gsclientgen/client/key_pairs"
-
-	"github.com/giantswarm/gsclientgen/client/key_pairs"
-
-	"github.com/giantswarm/gsclientgen/client/organizations"
-
-	"github.com/giantswarm/gsclientgen/client/releases"
-
-	"github.com/giantswarm/gsclientgen/client/users"
-
-	"github.com/go-openapi/runtime"
-	httptransport "github.com/go-openapi/runtime/client"
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // Default gsclientgen HTTP client.
