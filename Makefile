@@ -16,7 +16,7 @@ generate: clean
 	  -v ${PWD}:/go/src/github.com/giantswarm/gsclientgen \
 		-w /go/src/github.com/giantswarm/gsclientgen/api-spec \
 		--user ${USERID}:${GROUPID} \
-		quay.io/goswagger/swagger:v0.17.1 \
+		quay.io/goswagger/swagger:v0.17.2 \
 			generate client \
 			--spec spec.yaml \
 			--name gsclientgen \
