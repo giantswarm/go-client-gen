@@ -9,11 +9,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
-
 	models "github.com/giantswarm/gsclientgen/models"
+	"github.com/go-openapi/runtime"
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // ModifyUserReader is a Reader for the ModifyUser structure.

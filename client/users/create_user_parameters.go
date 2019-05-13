@@ -9,15 +9,12 @@ import (
 	"net/http"
 	"time"
 
-	"golang.org/x/net/context"
-
+	models "github.com/giantswarm/gsclientgen/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
 	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/giantswarm/gsclientgen/models"
+	"golang.org/x/net/context"
 )
 
 // NewCreateUserParams creates a new CreateUserParams object
