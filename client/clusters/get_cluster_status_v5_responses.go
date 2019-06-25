@@ -61,7 +61,7 @@ func NewGetClusterStatusV5OK() *GetClusterStatusV5OK {
 Cluster status
 */
 type GetClusterStatusV5OK struct {
-	Payload models.V4GetClusterStatusResponse
+	Payload *models.V5GetClusterStatusResponse
 }
 
 func (o *GetClusterStatusV5OK) Error() string {
@@ -70,8 +70,10 @@ func (o *GetClusterStatusV5OK) Error() string {
 
 func (o *GetClusterStatusV5OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.V5GetClusterStatusResponse)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
