@@ -37,9 +37,10 @@ validate:
 	docker run --rm -it \
 	    -v ${PWD}/api-spec:/workdir \
 		--user ${USERID}:${GROUPID} \
-	    boiyaa/yamllint:1.8.1 ./spec.yaml
+	    boiyaa/yamllint:1.8.1 -d "{extends: relaxed, rules: {line-length: {max: 500}}}" ./spec.yaml
 	docker run --rm -it \
 		-v ${PWD}/api-spec:/swagger-api/yaml \
+		-v ${PWD}/tmp:/tmp \
 		--user ${USERID}:${GROUPID} \
 		jimschubert/swagger-codegen-cli:2.2.3 generate \
 		--input-spec /swagger-api/yaml/spec.yaml \
