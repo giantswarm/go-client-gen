@@ -3,7 +3,7 @@ USERID=$(shell id -u)
 GROUPID=$(shell id -g)
 
 # API Spec branch name
-BRANCH := master
+BRANCH := rename-nodepools-tag
 
 generate: clean
 	# pull spec
