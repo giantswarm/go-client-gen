@@ -8,6 +8,7 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
@@ -19,11 +20,32 @@ type V4CreateAuthTokenRequest struct {
 	Email string `json:"email,omitempty"`
 
 	// Your password as a base64 encoded string
-	PasswordBase64 string `json:"password_base64,omitempty"`
+	// Format: byte
+	PasswordBase64 strfmt.Base64 `json:"password_base64,omitempty"`
 }
 
 // Validate validates this v4 create auth token request
 func (m *V4CreateAuthTokenRequest) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validatePasswordBase64(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V4CreateAuthTokenRequest) validatePasswordBase64(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.PasswordBase64) { // not required
+		return nil
+	}
+
+	// Format "byte" (base64 string) is already validated when unmarshalled
+
 	return nil
 }
 

@@ -22,7 +22,8 @@ type V4CreateUserRequest struct {
 
 	// A Base64 encoded password
 	// Required: true
-	Password *string `json:"password"`
+	// Format: byte
+	Password *strfmt.Base64 `json:"password"`
 }
 
 // Validate validates this v4 create user request
@@ -44,6 +45,8 @@ func (m *V4CreateUserRequest) validatePassword(formats strfmt.Registry) error {
 	if err := validate.Required("password", "body", m.Password); err != nil {
 		return err
 	}
+
+	// Format "byte" (base64 string) is already validated when unmarshalled
 
 	return nil
 }

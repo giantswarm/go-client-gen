@@ -18,16 +18,22 @@ import (
 type V4ModifyUserPasswordRequest struct {
 
 	// Current password encoded in Base64. Not required for admins
-	CurrentPasswordBase64 string `json:"current_password_base64,omitempty"`
+	// Format: byte
+	CurrentPasswordBase64 strfmt.Base64 `json:"current_password_base64,omitempty"`
 
 	// New password encoded in Base64
 	// Required: true
-	NewPasswordBase64 *string `json:"new_password_base64"`
+	// Format: byte
+	NewPasswordBase64 *strfmt.Base64 `json:"new_password_base64"`
 }
 
 // Validate validates this v4 modify user password request
 func (m *V4ModifyUserPasswordRequest) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateCurrentPasswordBase64(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateNewPasswordBase64(formats); err != nil {
 		res = append(res, err)
@@ -39,11 +45,24 @@ func (m *V4ModifyUserPasswordRequest) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V4ModifyUserPasswordRequest) validateCurrentPasswordBase64(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.CurrentPasswordBase64) { // not required
+		return nil
+	}
+
+	// Format "byte" (base64 string) is already validated when unmarshalled
+
+	return nil
+}
+
 func (m *V4ModifyUserPasswordRequest) validateNewPasswordBase64(formats strfmt.Registry) error {
 
 	if err := validate.Required("new_password_base64", "body", m.NewPasswordBase64); err != nil {
 		return err
 	}
+
+	// Format "byte" (base64 string) is already validated when unmarshalled
 
 	return nil
 }
