@@ -3,7 +3,7 @@ USERID=$(shell id -u)
 GROUPID=$(shell id -g)
 
 # API Spec branch name
-BRANCH := master
+BRANCH := schema-details
 
 generate: clean
 	# pull spec
