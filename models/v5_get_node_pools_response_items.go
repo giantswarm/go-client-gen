@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V5GetNodePoolsResponseItems v5 get node pools response items
@@ -18,9 +19,12 @@ type V5GetNodePoolsResponseItems struct {
 
 	// Names of the availability zones used by the nodes of this pool.
 	//
+	// Max Items: 4
+	// Min Items: 1
 	AvailabilityZones []string `json:"availability_zones"`
 
 	// Node pool identifier. Unique within a tenant cluster.
+	// Pattern: [a-z0-9]{5}
 	ID string `json:"id,omitempty"`
 
 	// Node pool name
@@ -36,12 +40,21 @@ type V5GetNodePoolsResponseItems struct {
 	Status *V5GetNodePoolsResponseItemsStatus `json:"status,omitempty"`
 
 	// IP address block used by the node pool
+	// Pattern: [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/[0-9]+
 	Subnet string `json:"subnet,omitempty"`
 }
 
 // Validate validates this v5 get node pools response items
 func (m *V5GetNodePoolsResponseItems) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateAvailabilityZones(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateID(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateNodeSpec(formats); err != nil {
 		res = append(res, err)
@@ -55,9 +68,45 @@ func (m *V5GetNodePoolsResponseItems) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateSubnet(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V5GetNodePoolsResponseItems) validateAvailabilityZones(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AvailabilityZones) { // not required
+		return nil
+	}
+
+	iAvailabilityZonesSize := int64(len(m.AvailabilityZones))
+
+	if err := validate.MinItems("availability_zones", "body", iAvailabilityZonesSize, 1); err != nil {
+		return err
+	}
+
+	if err := validate.MaxItems("availability_zones", "body", iAvailabilityZonesSize, 4); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V5GetNodePoolsResponseItems) validateID(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ID) { // not required
+		return nil
+	}
+
+	if err := validate.Pattern("id", "body", string(m.ID), `[a-z0-9]{5}`); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -110,6 +159,19 @@ func (m *V5GetNodePoolsResponseItems) validateStatus(formats strfmt.Registry) er
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V5GetNodePoolsResponseItems) validateSubnet(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Subnet) { // not required
+		return nil
+	}
+
+	if err := validate.Pattern("subnet", "body", string(m.Subnet), `[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/[0-9]+`); err != nil {
+		return err
 	}
 
 	return nil

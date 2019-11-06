@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V4InfoResponseWorkersCountPerCluster Number of workers per cluster
@@ -16,14 +18,55 @@ import (
 type V4InfoResponseWorkersCountPerCluster struct {
 
 	// Default number of workers in a new cluster will have, if not specifiec otherwise
-	Default int64 `json:"default,omitempty"`
+	// Minimum: 0
+	Default *int64 `json:"default,omitempty"`
 
 	// Maximum number of worker a cluster can have. Might be null when unknown.
-	Max int64 `json:"max,omitempty"`
+	// Minimum: 0
+	Max *int64 `json:"max,omitempty"`
 }
 
 // Validate validates this v4 info response workers count per cluster
 func (m *V4InfoResponseWorkersCountPerCluster) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateDefault(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMax(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V4InfoResponseWorkersCountPerCluster) validateDefault(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Default) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("default", "body", int64(*m.Default), 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V4InfoResponseWorkersCountPerCluster) validateMax(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Max) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("max", "body", int64(*m.Max), 0, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

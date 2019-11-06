@@ -21,7 +21,7 @@ type V5AddClusterRequest struct {
 	Master *V5AddClusterRequestMaster `json:"master,omitempty"`
 
 	// Cluster name
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Name of the organization owning the cluster
 	//

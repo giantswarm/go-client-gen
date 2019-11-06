@@ -12,6 +12,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V4ClusterDetailsResponse Response model showing details of a cluster
@@ -22,6 +23,8 @@ type V4ClusterDetailsResponse struct {
 	APIEndpoint string `json:"api_endpoint,omitempty"`
 
 	// List of availability zones a cluster is spread across.
+	// Max Items: 4
+	// Min Items: 1
 	AvailabilityZones []string `json:"availability_zones"`
 
 	// Date/time of cluster creation
@@ -33,6 +36,7 @@ type V4ClusterDetailsResponse struct {
 	CredentialID string `json:"credential_id,omitempty"`
 
 	// Unique cluster identifier
+	// Pattern: [a-z0-9]{5}
 	ID string `json:"id,omitempty"`
 
 	// kvm
@@ -60,6 +64,14 @@ type V4ClusterDetailsResponse struct {
 func (m *V4ClusterDetailsResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAvailabilityZones(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateID(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateKvm(formats); err != nil {
 		res = append(res, err)
 	}
@@ -75,6 +87,38 @@ func (m *V4ClusterDetailsResponse) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V4ClusterDetailsResponse) validateAvailabilityZones(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AvailabilityZones) { // not required
+		return nil
+	}
+
+	iAvailabilityZonesSize := int64(len(m.AvailabilityZones))
+
+	if err := validate.MinItems("availability_zones", "body", iAvailabilityZonesSize, 1); err != nil {
+		return err
+	}
+
+	if err := validate.MaxItems("availability_zones", "body", iAvailabilityZonesSize, 4); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V4ClusterDetailsResponse) validateID(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ID) { // not required
+		return nil
+	}
+
+	if err := validate.Pattern("id", "body", string(m.ID), `[a-z0-9]{5}`); err != nil {
+		return err
+	}
+
 	return nil
 }
 

@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V5AddNodePoolRequest Request body structure for creating a node pool
@@ -22,6 +23,8 @@ type V5AddNodePoolRequest struct {
 
 	// Node pool name. _(Length between 1-100, cannot contain control codes such as newline.)_
 	//
+	// Max Length: 100
+	// Min Length: 1
 	Name string `json:"name,omitempty"`
 
 	// node spec
@@ -36,6 +39,10 @@ func (m *V5AddNodePoolRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAvailabilityZones(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateName(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -66,6 +73,23 @@ func (m *V5AddNodePoolRequest) validateAvailabilityZones(formats strfmt.Registry
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V5AddNodePoolRequest) validateName(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Name) { // not required
+		return nil
+	}
+
+	if err := validate.MinLength("name", "body", string(m.Name), 1); err != nil {
+		return err
+	}
+
+	if err := validate.MaxLength("name", "body", string(m.Name), 100); err != nil {
+		return err
 	}
 
 	return nil

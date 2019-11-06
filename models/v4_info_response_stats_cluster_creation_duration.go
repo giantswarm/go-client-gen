@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V4InfoResponseStatsClusterCreationDuration Duration of cluster creation, summarized.
@@ -16,17 +18,76 @@ import (
 type V4InfoResponseStatsClusterCreationDuration struct {
 
 	// Median of the value distribution
-	Median int64 `json:"median,omitempty"`
+	// Minimum: 0
+	Median *int64 `json:"median,omitempty"`
 
 	// 25th percentile of the value distribution
-	P25 int64 `json:"p25,omitempty"`
+	// Minimum: 0
+	P25 *int64 `json:"p25,omitempty"`
 
 	// 75th percentile of the value distribution
-	P75 int64 `json:"p75,omitempty"`
+	// Minimum: 0
+	P75 *int64 `json:"p75,omitempty"`
 }
 
 // Validate validates this v4 info response stats cluster creation duration
 func (m *V4InfoResponseStatsClusterCreationDuration) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateMedian(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateP25(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateP75(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V4InfoResponseStatsClusterCreationDuration) validateMedian(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Median) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("median", "body", int64(*m.Median), 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V4InfoResponseStatsClusterCreationDuration) validateP25(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.P25) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("p25", "body", int64(*m.P25), 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V4InfoResponseStatsClusterCreationDuration) validateP75(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.P75) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("p75", "body", int64(*m.P75), 0, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

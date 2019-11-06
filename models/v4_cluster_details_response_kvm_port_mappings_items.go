@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V4ClusterDetailsResponseKvmPortMappingsItems v4 cluster details response kvm port mappings items
@@ -17,6 +19,8 @@ type V4ClusterDetailsResponseKvmPortMappingsItems struct {
 
 	// The port on the control plane that will forward traffic to the tenant cluster
 	//
+	// Maximum: 65535
+	// Minimum: 1
 	Port int64 `json:"port,omitempty"`
 
 	// The protocol this port mapping is made for.
@@ -26,6 +30,32 @@ type V4ClusterDetailsResponseKvmPortMappingsItems struct {
 
 // Validate validates this v4 cluster details response kvm port mappings items
 func (m *V4ClusterDetailsResponseKvmPortMappingsItems) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validatePort(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V4ClusterDetailsResponseKvmPortMappingsItems) validatePort(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Port) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("port", "body", int64(m.Port), 1, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("port", "body", int64(m.Port), 65535, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

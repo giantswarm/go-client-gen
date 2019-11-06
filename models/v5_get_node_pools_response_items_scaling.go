@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V5GetNodePoolsResponseItemsScaling Scaling range of the node pool.
@@ -19,14 +21,55 @@ import (
 type V5GetNodePoolsResponseItemsScaling struct {
 
 	// Maximum number of nodes in the pool
+	// Minimum: 1
 	Max int64 `json:"max,omitempty"`
 
 	// Minimum number of nodes in the pool
+	// Minimum: 1
 	Min int64 `json:"min,omitempty"`
 }
 
 // Validate validates this v5 get node pools response items scaling
 func (m *V5GetNodePoolsResponseItemsScaling) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateMax(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMin(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V5GetNodePoolsResponseItemsScaling) validateMax(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Max) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("max", "body", int64(m.Max), 1, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V5GetNodePoolsResponseItemsScaling) validateMin(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Min) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("min", "body", int64(m.Min), 1, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V4GetKeyPairsResponseItems v4 get key pairs response items
@@ -31,11 +33,34 @@ type V4GetKeyPairsResponseItems struct {
 	ID string `json:"id,omitempty"`
 
 	// Expiration time (from creation) in hours
+	// Minimum: 1
 	TTLHours int64 `json:"ttl_hours,omitempty"`
 }
 
 // Validate validates this v4 get key pairs response items
 func (m *V4GetKeyPairsResponseItems) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateTTLHours(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V4GetKeyPairsResponseItems) validateTTLHours(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TTLHours) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("ttl_hours", "body", int64(m.TTLHours), 1, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

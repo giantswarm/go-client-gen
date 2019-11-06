@@ -19,13 +19,19 @@ type V4InfoResponseGeneralAvailabilityZones struct {
 
 	// Default number of availability zones for a cluster.
 	// Required: true
+	// Maximum: 3
+	// Minimum: 1
 	Default *int64 `json:"default"`
 
 	// Number of availability zones in the region of this installation.
 	// Required: true
+	// Maximum: 10
+	// Minimum: 0
 	Max *int64 `json:"max"`
 
 	// The availability zones available in the installation's region for use with tenant clusters.
+	// Max Items: 10
+	// Min Items: 1
 	Zones []string `json:"zones"`
 }
 
@@ -41,6 +47,10 @@ func (m *V4InfoResponseGeneralAvailabilityZones) Validate(formats strfmt.Registr
 		res = append(res, err)
 	}
 
+	if err := m.validateZones(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -53,12 +63,47 @@ func (m *V4InfoResponseGeneralAvailabilityZones) validateDefault(formats strfmt.
 		return err
 	}
 
+	if err := validate.MinimumInt("default", "body", int64(*m.Default), 1, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("default", "body", int64(*m.Default), 3, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func (m *V4InfoResponseGeneralAvailabilityZones) validateMax(formats strfmt.Registry) error {
 
 	if err := validate.Required("max", "body", m.Max); err != nil {
+		return err
+	}
+
+	if err := validate.MinimumInt("max", "body", int64(*m.Max), 0, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("max", "body", int64(*m.Max), 10, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V4InfoResponseGeneralAvailabilityZones) validateZones(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Zones) { // not required
+		return nil
+	}
+
+	iZonesSize := int64(len(m.Zones))
+
+	if err := validate.MinItems("zones", "body", iZonesSize, 1); err != nil {
+		return err
+	}
+
+	if err := validate.MaxItems("zones", "body", iZonesSize, 10); err != nil {
 		return err
 	}
 

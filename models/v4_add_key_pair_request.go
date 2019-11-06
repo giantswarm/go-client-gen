@@ -30,6 +30,7 @@ type V4AddKeyPairRequest struct {
 	Description *string `json:"description"`
 
 	// Expiration time (from creation) in hours
+	// Minimum: 1
 	TTLHours int32 `json:"ttl_hours,omitempty"`
 }
 
@@ -38,6 +39,10 @@ func (m *V4AddKeyPairRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDescription(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTTLHours(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -50,6 +55,19 @@ func (m *V4AddKeyPairRequest) Validate(formats strfmt.Registry) error {
 func (m *V4AddKeyPairRequest) validateDescription(formats strfmt.Registry) error {
 
 	if err := validate.Required("description", "body", m.Description); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V4AddKeyPairRequest) validateTTLHours(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TTLHours) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("ttl_hours", "body", int64(m.TTLHours), 1, false); err != nil {
 		return err
 	}
 

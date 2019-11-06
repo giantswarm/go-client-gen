@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V5AddNodePoolRequestScaling Attributes specific to cluster node scaling. To have full control of
@@ -20,14 +22,55 @@ import (
 type V5AddNodePoolRequestScaling struct {
 
 	// Maximum number of nodes in the pool.
-	Max int64 `json:"max,omitempty"`
+	// Minimum: 0
+	Max *int64 `json:"max,omitempty"`
 
 	// Minimum number of nodes in the pool.
-	Min int64 `json:"min,omitempty"`
+	// Minimum: 0
+	Min *int64 `json:"min,omitempty"`
 }
 
 // Validate validates this v5 add node pool request scaling
 func (m *V5AddNodePoolRequestScaling) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateMax(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMin(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V5AddNodePoolRequestScaling) validateMax(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Max) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("max", "body", int64(*m.Max), 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V5AddNodePoolRequestScaling) validateMin(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Min) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("min", "body", int64(*m.Min), 0, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

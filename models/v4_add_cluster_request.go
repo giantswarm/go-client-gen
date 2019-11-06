@@ -22,6 +22,8 @@ type V4AddClusterRequest struct {
 	// Number of availability zones a cluster should be spread across. The
 	// default is provided via the [info](#operation/getInfo) endpoint.
 	//
+	// Maximum: 4
+	// Minimum: 1
 	AvailabilityZones int64 `json:"availability_zones,omitempty"`
 
 	// Cluster name
@@ -50,6 +52,10 @@ type V4AddClusterRequest struct {
 func (m *V4AddClusterRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAvailabilityZones(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateOwner(formats); err != nil {
 		res = append(res, err)
 	}
@@ -65,6 +71,23 @@ func (m *V4AddClusterRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V4AddClusterRequest) validateAvailabilityZones(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AvailabilityZones) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("availability_zones", "body", int64(m.AvailabilityZones), 1, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("availability_zones", "body", int64(m.AvailabilityZones), 4, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

@@ -12,6 +12,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V5ClusterDetailsResponse v5 cluster details response
@@ -33,6 +34,7 @@ type V5ClusterDetailsResponse struct {
 	CredentialID string `json:"credential_id,omitempty"`
 
 	// Unique cluster identifier
+	// Pattern: [a-z0-9]{5}
 	ID string `json:"id,omitempty"`
 
 	// master
@@ -59,6 +61,10 @@ func (m *V5ClusterDetailsResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateConditions(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -96,6 +102,19 @@ func (m *V5ClusterDetailsResponse) validateConditions(formats strfmt.Registry) e
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V5ClusterDetailsResponse) validateID(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ID) { // not required
+		return nil
+	}
+
+	if err := validate.Pattern("id", "body", string(m.ID), `[a-z0-9]{5}`); err != nil {
+		return err
 	}
 
 	return nil

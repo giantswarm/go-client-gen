@@ -18,7 +18,7 @@ type V4GetClusterAppsResponseItemsStatusRelease struct {
 	// Date and time that the app was last last deployed
 	LastDeployed string `json:"last_deployed,omitempty"`
 
-	// A string representing the status of the app. (Can be: empty, DEPLOYED or FAILED)
+	// A string representing the status of the app.
 	Status string `json:"status,omitempty"`
 }
 

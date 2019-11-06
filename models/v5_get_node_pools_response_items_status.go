@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V5GetNodePoolsResponseItemsStatus Information on the current size and status of the node pool
@@ -16,14 +18,55 @@ import (
 type V5GetNodePoolsResponseItemsStatus struct {
 
 	// Desired number of nodes in the pool
-	Nodes int64 `json:"nodes,omitempty"`
+	// Minimum: 0
+	Nodes *int64 `json:"nodes,omitempty"`
 
 	// Number of nodes in state NodeReady
-	NodesReady int64 `json:"nodes_ready,omitempty"`
+	// Minimum: 0
+	NodesReady *int64 `json:"nodes_ready,omitempty"`
 }
 
 // Validate validates this v5 get node pools response items status
 func (m *V5GetNodePoolsResponseItemsStatus) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateNodes(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateNodesReady(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V5GetNodePoolsResponseItemsStatus) validateNodes(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Nodes) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("nodes", "body", int64(*m.Nodes), 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V5GetNodePoolsResponseItemsStatus) validateNodesReady(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.NodesReady) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("nodes_ready", "body", int64(*m.NodesReady), 0, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

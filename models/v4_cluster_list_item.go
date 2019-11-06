@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V4ClusterListItem v4 cluster list item
@@ -19,6 +21,7 @@ type V4ClusterListItem struct {
 	CreateDate string `json:"create_date,omitempty"`
 
 	// Unique cluster identifier
+	// Pattern: [a-z0-9]{5}
 	ID string `json:"id,omitempty"`
 
 	// Cluster name
@@ -36,6 +39,28 @@ type V4ClusterListItem struct {
 
 // Validate validates this v4 cluster list item
 func (m *V4ClusterListItem) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V4ClusterListItem) validateID(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ID) { // not required
+		return nil
+	}
+
+	if err := validate.Pattern("id", "body", string(m.ID), `[a-z0-9]{5}`); err != nil {
+		return err
+	}
+
 	return nil
 }
 
