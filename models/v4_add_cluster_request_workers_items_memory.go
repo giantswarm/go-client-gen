@@ -16,7 +16,7 @@ import (
 type V4AddClusterRequestWorkersItemsMemory struct {
 
 	// RAM size in GB. Can be an integer or float.
-	SizeGb float64 `json:"size_gb,omitempty"`
+	SizeGb float32 `json:"size_gb,omitempty"`
 }
 
 // Validate validates this v4 add cluster request workers items memory
