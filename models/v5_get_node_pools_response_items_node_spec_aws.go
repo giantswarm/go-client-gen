@@ -19,6 +19,10 @@ type V5GetNodePoolsResponseItemsNodeSpecAws struct {
 	// EC2 instance type used by all nodes in this pool
 	//
 	InstanceType string `json:"instance_type,omitempty"`
+
+	// If true, the node pool will be filled with spot instances.
+	//
+	SpotInstanceEnabled bool `json:"spot_instance_enabled,omitempty"`
 }
 
 // Validate validates this v5 get node pools response items node spec aws

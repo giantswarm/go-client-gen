@@ -19,6 +19,10 @@ type V5AddNodePoolRequestNodeSpecAws struct {
 	// EC2 instance type to use for all nodes in the node pool. _(Validated against available instance types.)_
 	//
 	InstanceType string `json:"instance_type,omitempty"`
+
+	// If true, the node pool will be filled with spot instances.
+	//
+	SpotInstanceEnabled bool `json:"spot_instance_enabled,omitempty"`
 }
 
 // Validate validates this v5 add node pool request node spec aws
