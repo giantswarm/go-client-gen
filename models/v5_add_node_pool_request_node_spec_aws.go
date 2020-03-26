@@ -8,6 +8,7 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
@@ -16,17 +17,47 @@ import (
 // swagger:model v5AddNodePoolRequestNodeSpecAws
 type V5AddNodePoolRequestNodeSpecAws struct {
 
+	// instance distribution
+	InstanceDistribution *V5AddNodePoolRequestNodeSpecAwsInstanceDistribution `json:"instance_distribution,omitempty"`
+
 	// EC2 instance type to use for all nodes in the node pool. _(Validated against available instance types.)_
 	//
 	InstanceType string `json:"instance_type,omitempty"`
 
-	// If true, the node pool will be filled with spot instances.
+	// If true, instances alike the instance_type will be used.
 	//
-	SpotInstanceEnabled bool `json:"spot_instance_enabled,omitempty"`
+	UseAlike bool `json:"use_alike,omitempty"`
 }
 
 // Validate validates this v5 add node pool request node spec aws
 func (m *V5AddNodePoolRequestNodeSpecAws) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateInstanceDistribution(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V5AddNodePoolRequestNodeSpecAws) validateInstanceDistribution(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.InstanceDistribution) { // not required
+		return nil
+	}
+
+	if m.InstanceDistribution != nil {
+		if err := m.InstanceDistribution.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instance_distribution")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
