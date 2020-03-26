@@ -8,7 +8,6 @@ package node_pools
 import (
 	"github.com/go-openapi/runtime"
 
-	"fmt"
 	strfmt "github.com/go-openapi/strfmt"
 )
 
@@ -42,7 +41,6 @@ func (a *Client) AddNodePool(params *AddNodePoolParams, authInfo runtime.ClientA
 	if params == nil {
 		params = NewAddNodePoolParams()
 	}
-	fmt.Printf("%+v\n", params)
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addNodePool",
