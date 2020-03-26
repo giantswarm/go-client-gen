@@ -20,10 +20,12 @@ type V5AddNodePoolRequestNodeSpecAwsInstanceDistribution struct {
 
 	// Base capacity of on demand machines.
 	//
-	OnDemandBaseCapacity int64 `json:"on_demand_base_capacity,omitempty"`
+	// Minimum: 0
+	OnDemandBaseCapacity *int64 `json:"on_demand_base_capacity,omitempty"`
 
 	// Percentage of on demand instances above the base capacity.
 	//
+	// Maximum: 100
 	// Minimum: 0
 	OnDemandPercentageAboveBaseCapacity *int64 `json:"on_demand_percentage_above_base_capacity,omitempty"`
 }
@@ -31,6 +33,10 @@ type V5AddNodePoolRequestNodeSpecAwsInstanceDistribution struct {
 // Validate validates this v5 add node pool request node spec aws instance distribution
 func (m *V5AddNodePoolRequestNodeSpecAwsInstanceDistribution) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateOnDemandBaseCapacity(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateOnDemandPercentageAboveBaseCapacity(formats); err != nil {
 		res = append(res, err)
@@ -42,6 +48,19 @@ func (m *V5AddNodePoolRequestNodeSpecAwsInstanceDistribution) Validate(formats s
 	return nil
 }
 
+func (m *V5AddNodePoolRequestNodeSpecAwsInstanceDistribution) validateOnDemandBaseCapacity(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.OnDemandBaseCapacity) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("on_demand_base_capacity", "body", int64(*m.OnDemandBaseCapacity), 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *V5AddNodePoolRequestNodeSpecAwsInstanceDistribution) validateOnDemandPercentageAboveBaseCapacity(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.OnDemandPercentageAboveBaseCapacity) { // not required
@@ -49,6 +68,10 @@ func (m *V5AddNodePoolRequestNodeSpecAwsInstanceDistribution) validateOnDemandPe
 	}
 
 	if err := validate.MinimumInt("on_demand_percentage_above_base_capacity", "body", int64(*m.OnDemandPercentageAboveBaseCapacity), 0, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("on_demand_percentage_above_base_capacity", "body", int64(*m.OnDemandPercentageAboveBaseCapacity), 100, false); err != nil {
 		return err
 	}
 
