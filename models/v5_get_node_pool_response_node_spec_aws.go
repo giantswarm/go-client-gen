@@ -26,7 +26,7 @@ type V5GetNodePoolResponseNodeSpecAws struct {
 
 	// If true, instances alike the instance_type will be used.
 	//
-	UseAlike bool `json:"use_alike,omitempty"`
+	UseAlikeInstanceTypes bool `json:"use_alike_instance_types,omitempty"`
 }
 
 // Validate validates this v5 get node pool response node spec aws
