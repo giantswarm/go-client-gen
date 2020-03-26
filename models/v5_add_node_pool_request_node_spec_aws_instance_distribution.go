@@ -8,7 +8,9 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V5AddNodePoolRequestNodeSpecAwsInstanceDistribution Attributes defining the instance distribution in a node pool.
@@ -22,11 +24,34 @@ type V5AddNodePoolRequestNodeSpecAwsInstanceDistribution struct {
 
 	// Percentage of on demand instances above the base capacity.
 	//
-	OnDemandPercentageAboveBaseCapacity int64 `json:"on_demand_percentage_above_base_capacity,omitempty"`
+	// Minimum: 0
+	OnDemandPercentageAboveBaseCapacity *int64 `json:"on_demand_percentage_above_base_capacity,omitempty"`
 }
 
 // Validate validates this v5 add node pool request node spec aws instance distribution
 func (m *V5AddNodePoolRequestNodeSpecAwsInstanceDistribution) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateOnDemandPercentageAboveBaseCapacity(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V5AddNodePoolRequestNodeSpecAwsInstanceDistribution) validateOnDemandPercentageAboveBaseCapacity(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.OnDemandPercentageAboveBaseCapacity) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("on_demand_percentage_above_base_capacity", "body", int64(*m.OnDemandPercentageAboveBaseCapacity), 0, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 
