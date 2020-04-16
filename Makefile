@@ -48,6 +48,5 @@ validate:
 
 # validate the code through building
 build:
-	dep ensure
 	go build github.com/giantswarm/gsclientgen/models
 	go build github.com/giantswarm/gsclientgen/client

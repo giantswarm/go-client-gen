@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/PuerkitoBio/purell v1.1.1
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578
-	github.com/asaskevich/govalidator v0.0.0-20180315120708-ccb8e960c48f
+	github.com/asaskevich/govalidator v0.0.0-20180720115003-f9ffefc3facf
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/go-openapi/analysis v0.19.0
 	github.com/go-openapi/errors v0.19.1-0.20190502075400-df3fda67a4c8
