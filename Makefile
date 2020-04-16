@@ -2,8 +2,8 @@ PWD := $(shell pwd)
 USERID=$(shell id -u)
 GROUPID=$(shell id -g)
 
-# API Spec branch name
-BRANCH := master
+# API Spec branch/tag name
+BRANCH := v0.1.5
 
 generate: clean
 	# pull spec
