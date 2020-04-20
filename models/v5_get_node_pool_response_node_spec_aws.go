@@ -20,11 +20,12 @@ type V5GetNodePoolResponseNodeSpecAws struct {
 	// instance distribution
 	InstanceDistribution *V5GetNodePoolResponseNodeSpecAwsInstanceDistribution `json:"instance_distribution,omitempty"`
 
-	// EC2 instance type used by all nodes in this pool
+	// EC2 instance type used by all nodes in this pool.
 	//
 	InstanceType string `json:"instance_type,omitempty"`
 
-	// If true, instances alike the instance_type will be used.
+	// Whether this node pool can use different instance types alike the configured one.
+	// Find details on this attribute in the [addNodePool](#operation/addNodePool) operation.
 	//
 	UseAlikeInstanceTypes bool `json:"use_alike_instance_types,omitempty"`
 }

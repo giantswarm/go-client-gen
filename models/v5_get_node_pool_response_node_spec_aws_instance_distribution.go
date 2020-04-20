@@ -16,11 +16,14 @@ import (
 // swagger:model v5GetNodePoolResponseNodeSpecAwsInstanceDistribution
 type V5GetNodePoolResponseNodeSpecAwsInstanceDistribution struct {
 
-	// Base capacity of on demand machines.
+	// Base capacity of on-demand EC2 instances to use for worker nodes in this pools.
+	// Find details on this attribute in the [addNodePool](#operation/addNodePool) operation.
 	//
 	OnDemandBaseCapacity int64 `json:"on_demand_base_capacity,omitempty"`
 
-	// Percentage of on demand instances above the base capacity.
+	// Percentage of on-demand EC2 instances to use for worker nodes, instead of spot
+	// instances, for instances exceeding `on_demand_base_capacity`.
+	// Find details on this attribute in the [addNodePool](#operation/addNodePool) operation.
 	//
 	OnDemandPercentageAboveBaseCapacity int64 `json:"on_demand_percentage_above_base_capacity,omitempty"`
 }

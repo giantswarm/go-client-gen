@@ -15,10 +15,10 @@ import (
 // swagger:model v5GetNodePoolResponseStatus
 type V5GetNodePoolResponseStatus struct {
 
-	// Instance types currently running in the node pool
+	// Instance types currently in use in this node pool.
 	InstanceTypes []string `json:"instance_types"`
 
-	// Desired number of nodes in the pool
+	// Desired number of nodes in the pool according to the cluster-autoscaler
 	Nodes int64 `json:"nodes,omitempty"`
 
 	// Number of nodes in state NodeReady

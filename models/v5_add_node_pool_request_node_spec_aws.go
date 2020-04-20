@@ -24,9 +24,11 @@ type V5AddNodePoolRequestNodeSpecAws struct {
 	//
 	InstanceType string `json:"instance_type,omitempty"`
 
-	// If true, instances alike the instance_type will be used.
+	// If true, instance types alike the type set via `instance_type` will be used. This can
+	// increase the likelihood to get instances for this pool, especially spot instances at
+	// a low rate. If false, only the exact type set as `instance_type` is used.
 	//
-	UseAlikeInstanceTypes bool `json:"use_alike_instance_types,omitempty"`
+	UseAlikeInstanceTypes *bool `json:"use_alike_instance_types,omitempty"`
 }
 
 // Validate validates this v5 add node pool request node spec aws

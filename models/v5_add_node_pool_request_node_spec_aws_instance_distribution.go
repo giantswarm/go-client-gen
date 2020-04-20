@@ -13,17 +13,23 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// V5AddNodePoolRequestNodeSpecAwsInstanceDistribution Attributes defining the instance distribution in a node pool.
+// V5AddNodePoolRequestNodeSpecAwsInstanceDistribution Attributes defining the instance distribution in the node pool being created.
 //
 // swagger:model v5AddNodePoolRequestNodeSpecAwsInstanceDistribution
 type V5AddNodePoolRequestNodeSpecAwsInstanceDistribution struct {
 
-	// Base capacity of on demand machines.
+	// Base capacity of on-demand EC2 instances to use for worker nodes in this pools.
+	// When this is larger than 0, this value defines a number of worker nodes that
+	// will be created using on-demand EC2 instances, regardless of the value
+	// configured as `on_demand_percentage_above_base_capacity`.
 	//
 	// Minimum: 0
 	OnDemandBaseCapacity *int64 `json:"on_demand_base_capacity,omitempty"`
 
-	// Percentage of on demand instances above the base capacity.
+	// Percentage of on-demand EC2 instances to use for worker nodes, instead of spot
+	// instances, for instances exceeding `on_demand_base_capacity`. For example, to
+	// have half of the worker nodes use spot instances and half use on-demand, set this
+	// value to 50.
 	//
 	// Maximum: 100
 	// Minimum: 0
