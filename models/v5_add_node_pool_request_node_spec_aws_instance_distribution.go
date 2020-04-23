@@ -14,6 +14,7 @@ import (
 )
 
 // V5AddNodePoolRequestNodeSpecAwsInstanceDistribution Attributes defining the instance distribution in the node pool being created.
+// Added with AWS release v11.2.0.
 //
 // swagger:model v5AddNodePoolRequestNodeSpecAwsInstanceDistribution
 type V5AddNodePoolRequestNodeSpecAwsInstanceDistribution struct {

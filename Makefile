@@ -3,7 +3,7 @@ USERID=$(shell id -u)
 GROUPID=$(shell id -g)
 
 # API Spec branch/tag name
-BRANCH := add-nodepool-spot-inst
+BRANCH := master
 
 generate: clean
 	# pull spec

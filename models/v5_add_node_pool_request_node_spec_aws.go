@@ -27,6 +27,7 @@ type V5AddNodePoolRequestNodeSpecAws struct {
 	// If true, instance types alike the type set via `instance_type` will be used. This can
 	// increase the likelihood to get instances for this pool, especially spot instances at
 	// a low rate. If false, only the exact type set as `instance_type` is used.
+	// Added with AWS release v11.2.0.
 	//
 	UseAlikeInstanceTypes *bool `json:"use_alike_instance_types,omitempty"`
 }
