@@ -17,8 +17,8 @@ type V5SetClusterLabelsRequest struct {
 
 	// Labels object
 	//
-	// Object containing keys with string values representing the labels attached to the cluster
-	Labels map[string]string `json:"labels,omitempty"`
+	// Object containing keys with string values representing label changes
+	Labels map[string]*string `json:"labels,omitempty"`
 }
 
 // Validate validates this v5 set cluster labels request
