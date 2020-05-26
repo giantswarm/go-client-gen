@@ -27,7 +27,7 @@ type V5ClusterDetailsResponseMasterNodes struct {
 
 	// Number of master nodes that are reported as `Ready`.
 	//
-	NumReady *int64 `json:"num_ready,omitempty"`
+	NumReady *int8 `json:"num_ready,omitempty"`
 }
 
 // Validate validates this v5 cluster details response master nodes
