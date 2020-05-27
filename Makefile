@@ -3,7 +3,7 @@ USERID=$(shell id -u)
 GROUPID=$(shell id -g)
 
 # API Spec branch/tag name
-BRANCH := master
+BRANCH := ha-masters
 
 generate: clean
 	# pull spec
