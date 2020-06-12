@@ -36,6 +36,13 @@ type V4ReleaseListItem struct {
 	// Required: true
 	Components []*V4ReleaseListItemComponentsItems `json:"components"`
 
+	// Can be `active` implying new clusters should use this version, `wip`
+	// implying that the version is for testing, or `deprecated` implying
+	// that the version should be avoided as there are newer releases with
+	// fixes or improvements.
+	//
+	State string `json:"state,omitempty"`
+
 	// Date and time of the release creation
 	// Required: true
 	Timestamp *string `json:"timestamp"`
